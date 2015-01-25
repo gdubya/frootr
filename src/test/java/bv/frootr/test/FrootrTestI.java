@@ -60,24 +60,26 @@ public class FrootrTestI {
     public void testMqttAndWebsocketIntegration() throws InterruptedException {
         driver.get("http://localhost:" + webServerPort);
         synchronized (driver) {
-            driver.wait(5000);
+            driver.wait(3000);
             assertEquals("Frootr :: How do ya like them apples?", driver.getTitle());
             sendInTheFruit();
-            driver.wait(5000);
+            driver.wait(10000);
             WebElement fruitBowl = driver.findElement(By.id("fruitBowl"));
             List<WebElement> fruitBowlRows = fruitBowl.findElements(By.tagName("tr"));
-            assertEquals(4, fruitBowlRows.size());
-            assertFruitInRow(fruitBowlRows, 0, "apples", "4");
-            assertFruitInRow(fruitBowlRows, 0, "grapes", "1");
-            assertFruitInRow(fruitBowlRows, 0, "pineapples", "17");
+            assertEquals(6, fruitBowlRows.size());
+            assertFruitInRow(fruitBowlRows.get(1), "apples", "6");
+            assertFruitInRow(fruitBowlRows.get(2), "grapes", "1");
+            assertFruitInRow(fruitBowlRows.get(3), "kumquats", "2");
+            assertFruitInRow(fruitBowlRows.get(4), "pears", "5");
+            assertFruitInRow(fruitBowlRows.get(5), "pineapples", "17");
         }
     }
 
-    private void assertFruitInRow(List<WebElement> fruitBowlRows, int row, String name, String quantity) {
-        List<WebElement> cellsInRow = fruitBowlRows.get(row).findElements(By.tagName("td"));
-        assertEquals(2, cellsInRow.size());
-        assertEquals(name, cellsInRow.get(0).getText());
-        assertEquals(quantity, cellsInRow.get(1).getText());
+    private void assertFruitInRow(WebElement fruitBowlRow, String name, String quantity) {
+        List<WebElement> fruitBowlRowCells = fruitBowlRow.findElements(By.tagName("td"));
+        assertEquals(2, fruitBowlRowCells.size());
+        assertEquals(name, fruitBowlRowCells.get(0).getText());
+        assertEquals(quantity, fruitBowlRowCells.get(1).getText());
     }
 
     private void sendInTheFruit() {
@@ -85,8 +87,10 @@ public class FrootrTestI {
             MqttClient mqttClient = new MqttClient(mqttUri, MqttClient.generateClientId(), new MemoryPersistence());
             mqttClient.connect();
             mqttClient.publish("frootr/123/pineapples", new MqttMessage("17".getBytes()));
-            mqttClient.publish("frootr/123/apples", new MqttMessage("4".getBytes()));
+            mqttClient.publish("frootr/123/apples", new MqttMessage("6".getBytes()));
             mqttClient.publish("frootr/123/grapes", new MqttMessage("1".getBytes()));
+            mqttClient.publish("frootr/123/kumquats", new MqttMessage("2".getBytes()));
+            mqttClient.publish("frootr/123/pears", new MqttMessage("5".getBytes()));
             mqttClient.disconnect();
         } catch (MqttException me) {
             throw new IllegalStateException("Could not create MqttClient", me);
