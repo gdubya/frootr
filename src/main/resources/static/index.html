@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frootr :: How do ya like them apples?</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+<div class="container">
+    <div class="navbar navbar-default">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Frootr </a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#">News</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="page-header">
+                <h1>Fruits Du Jour</h1>
+                <p>Last updated: <span id="lastUpdated">never</span></p>
+            </div>
+
+            <div class="container">
+                <table id="fruitBowl" class="table table-striped table-hover ">
+                    <!-- Classes: info success danger warning active -->
+                    <thead>
+                    <tr>
+                        <th>Fruit</th>
+                        <th># Remaining</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="danger">
+                        <td>None found</td>
+                        <td><span class="badge">0</span></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="webjars/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="webjars/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/sockjs-client/0.3.4-1/sockjs.min.js"></script>
+<script type="text/javascript" src="webjars/stomp-websocket/2.3.1-1/stomp.min.js"></script>
+ <script type="text/javascript" src="js/frootr.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        connect();
+    });
+</script>
+</body>
+</html>
