@@ -28,8 +28,6 @@ import static org.junit.Assert.assertEquals;
 @WebIntegrationTest
 public class FrootrTestI {
 
-    private static final String START_URL = "http://localhost:8080/";
-
     private WebDriver driver;
 
     @Value("${local.server.port}")
@@ -67,16 +65,18 @@ public class FrootrTestI {
             WebElement fruitBowl = driver.findElement(By.id("fruitBowl"));
             List<WebElement> fruitBowlRows = fruitBowl.findElements(By.tagName("tr"));
             assertEquals(6, fruitBowlRows.size());
-            assertFruitInRow(fruitBowlRows.get(1), "apples", "6");
-            assertFruitInRow(fruitBowlRows.get(2), "grapes", "1");
-            assertFruitInRow(fruitBowlRows.get(3), "kumquats", "2");
-            assertFruitInRow(fruitBowlRows.get(4), "pears", "5");
-            assertFruitInRow(fruitBowlRows.get(5), "pineapples", "17");
+            assertFruitInRow(1, "apples", "6");
+            assertFruitInRow(2, "grapes", "1");
+            assertFruitInRow(3, "kumquats", "2");
+            assertFruitInRow(4, "pears", "5");
+            assertFruitInRow(5, "pineapples", "17");
         }
     }
 
-    private void assertFruitInRow(WebElement fruitBowlRow, String name, String quantity) {
-        List<WebElement> fruitBowlRowCells = fruitBowlRow.findElements(By.tagName("td"));
+    private void assertFruitInRow(int rowNum, String name, String quantity) {
+        WebElement fruitBowl = driver.findElement(By.id("fruitBowl"));
+        List <WebElement> fruitBowlRows = fruitBowl.findElements(By.tagName("tr"));
+        List <WebElement> fruitBowlRowCells = fruitBowlRows.get(rowNum).findElements(By.tagName("td"));
         assertEquals(2, fruitBowlRowCells.size());
         assertEquals(name, fruitBowlRowCells.get(0).getText());
         assertEquals(quantity, fruitBowlRowCells.get(1).getText());
